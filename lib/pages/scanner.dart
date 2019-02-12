@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:qrcode_reader/qrcode_reader.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +48,6 @@ class _ScanState extends State<Scanner> {
 
   Future scan() async {
     String barcode = await QRCodeReader().scan();
-    setState(() => this.barcode = barcode);
+    setState(() => this.barcode = utf8.decode(base64Decode(barcode)));
   }
 }
