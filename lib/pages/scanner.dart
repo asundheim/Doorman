@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qrcode_reader/qrcode_reader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Scanner extends StatefulWidget {
   @override
@@ -48,21 +47,7 @@ class _ScanState extends State<Scanner> {
   }
 
   Future scan() async {
-    try {
-      String barcode = await BarcodeScanner.scan();
-      setState(() => this.barcode = barcode);
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
-        setState(() {
-          this.barcode = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this.barcode = 'Unknown error: $e');
-      }
-    } on FormatException{
-      setState(() => this.barcode = 'User pressed the back button');
-    } catch (e) {
-      setState(() => this.barcode = 'Unknown error: $e');
-    }
+    String barcode = await QRCodeReader().scan();
+    setState(() => this.barcode = barcode);
   }
 }
