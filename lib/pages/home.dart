@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './scanner.dart';
+import './qrgenerator.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -16,6 +17,12 @@ class Home extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Scanner()));
                   }
               ),
+              RaisedButton(
+                child: Text('QR Generator'),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => QRGenerator()));
+                },
+              )
             ],
           )
       ),
