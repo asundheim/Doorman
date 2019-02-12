@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1031866213390",
+    "firebase_url": "https://gatekeeper-cac54.firebaseio.com",
+    "project_id": "gatekeeper-cac54",
+    "storage_bucket": "gatekeeper-cac54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031866213390:android:25b30e9279ec4e69",
+        "android_client_info": {
+          "package_name": "com.anderssundheim.gatekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031866213390-uhkvm9hr2ubqnibm3id7psl0u6emcqlu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anderssundheim.gatekeeper",
+            "certificate_hash": "73e58773a56636ee6b8d2a6f62c37d3b2386027a"
+          }
+        },
+        {
+          "client_id": "1031866213390-6hlso8tjk47tm3056oi6g91d16ipsuhk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqv3QsmKmDC2euS9MVqhOJOHy1uL-6CFw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031866213390-6hlso8tjk47tm3056oi6g91d16ipsuhk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
