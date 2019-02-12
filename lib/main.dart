@@ -6,7 +6,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gatekeeper',
+      title: 'Gatekeeper App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
