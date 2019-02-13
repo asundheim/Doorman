@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gatekeeper/auth service.dart' as authService;
+import 'package:gatekeeper/auth_service.dart' as authService;
 
 class Auth extends StatefulWidget {
   @override
@@ -7,7 +7,6 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +24,4 @@ class _AuthState extends State<Auth> {
       ),
     );
   }
-
-
 }
