@@ -41,6 +41,7 @@ android {
         applicationId "com.anderssundheim.gatekeeper"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -68,6 +69,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:18.0.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-core:16.0.7'
+    
 }
 
 apply plugin: 'com.google.gms.google-services'

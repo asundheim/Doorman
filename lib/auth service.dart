@@ -1,20 +1,23 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
+GoogleSignInAccount currentUser;
+
+GoogleSignIn googleSignIn = GoogleSignIn(
   scopes: [
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
   ]
 );
 
-Future<void> _handleSignIn() async {
+Future<void> handleSignIn() async {
   try {
-    await _googleSignIn.signIn();
+    await googleSignIn.signIn();
   } catch (e) {
     print('google sign in error: $e');
   }
 }
 
-Future<void> _handleSignOut() async {
-  _googleSignIn.disconnect();
+Future<void> handleSignOut() async {
+  googleSignIn.disconnect();
 }
+
