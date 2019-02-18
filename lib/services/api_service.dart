@@ -30,7 +30,9 @@ Future<dynamic> getEvents(String userID) {
   return client.get('$baseURL/user/$userID/parties')
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
+        final List<String> list = List<String>.from(map['events']);
         print(map['events']);
+        return list;
       })
       .catchError((Object error) {
         print('error');
