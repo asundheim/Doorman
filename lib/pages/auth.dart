@@ -18,6 +18,10 @@ class _AuthState extends State<Auth> {
               child: Text('Sign In'),
               onPressed: () => authService.handleSignIn(),
             ),
+            RaisedButton(
+              child: Text('Sign Out'),
+              onPressed: () => authService.handleSignOut(),
+            )
             //Text(currentUser),
           ],
         ),
