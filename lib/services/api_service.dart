@@ -77,3 +77,14 @@ Future<dynamic> generateCode(String userID, String eventID) {
         print(error.toString());
       });
 }
+
+Future<dynamic> getCode(String userID) {
+  return client.get('$baseURL/user/$userID/codes')
+      .then((Response response) {
+    Map<String, dynamic> map = json.decode(response.body);
+    print(map['code']);
+  })
+      .catchError((Object error) {
+    print(error.toString());
+  });
+}

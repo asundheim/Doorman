@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.all_inclusive), title: Text('Events')),
           BottomNavigationBarItem(icon: Icon(Icons.settings_overscan), title: Text('Scan')),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), title: Text('Add later')),
+          BottomNavigationBarItem(icon: Icon(Icons.grid_on), title: Text('Codes')),
         ],
         currentIndex: _selectedIndex,
         fixedColor: Colors.deepPurple,
