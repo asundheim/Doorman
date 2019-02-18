@@ -20,9 +20,6 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Text('Events')
-        ),
         body: Column(
           children: <Widget>[
             InkWell(

@@ -3,6 +3,7 @@ import './scanner.dart';
 import './qrgenerator.dart';
 import './auth.dart';
 import './events.dart';
+import './settings.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key:key);
@@ -22,12 +23,21 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Gatekeeper'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: ()  => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Settings())),
+          )
+        ],
+      ),
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.all_inclusive), title: Text('Events')),
           BottomNavigationBarItem(icon: Icon(Icons.settings_overscan), title: Text('Scan')),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
+          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), title: Text('Add later')),
         ],
         currentIndex: _selectedIndex,
         fixedColor: Colors.deepPurple,
