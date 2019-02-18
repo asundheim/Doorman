@@ -20,26 +20,31 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: <Widget>[
-            InkWell(
-              onTap: () => setState(() {}),
-              child: addNew(),
+        body: Material(
+          child: Column(
+            children: <Widget>[
+              InkWell(
+                onTap: () => setState(() {}),
+                child: addNew(),
               ),
-            ListView.builder(
-                itemCount: events.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  const Padding(padding: EdgeInsets.all(16.0));
-                  return InkWell(
-                      onTap: () => setState(() {}),
-                      child: ListTile(
-                        title: Text(events[index]),
-                      )
-                  );
-                }
-            ),
-          ],
+              Expanded(
+              child: ListView.builder(
+                  itemCount: (events == null ? 0 : events.length),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    const Padding(padding: EdgeInsets.all(16.0));
+                    return InkWell(
+                        onTap: () => setState(() {}),
+                        child: ListTile(
+                          title: Text(events[index]),
+                        )
+                    );
+                  }
+              ),
+              ),
+            ],
+          ),
         )
     );
   }
