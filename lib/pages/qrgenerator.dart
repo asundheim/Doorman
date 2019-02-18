@@ -65,23 +65,16 @@ class QRGeneratorState extends State<QRGenerator> {
     final bodyHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom;
     return  Container(
       color: const Color(0xFFFFFFFF),
-      child:  Column(
+      child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              top: _topSectionTopPadding,
-              left: 20.0,
-              right: 10.0,
-              bottom: _topSectionBottomPadding,
-            ),
-            child:  Container(
+          Container(
               height: _topSectionHeight,
-              child:  Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                    child:  TextField(
+                    child: TextField(
                       controller: _textController,
                       decoration:  InputDecoration(
                         hintText: "Enter a custom message",
@@ -91,8 +84,8 @@ class QRGeneratorState extends State<QRGenerator> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child:  FlatButton(
-                      child:  Text("SUBMIT"),
+                    child: FlatButton(
+                      child: Text("SUBMIT"),
                       onPressed: () {
                         setState((){
                           _dataString = _textController.text;
@@ -104,9 +97,8 @@ class QRGeneratorState extends State<QRGenerator> {
                 ],
               ),
             ),
-          ),
           Expanded(
-            child:  Center(
+            child: Center(
               child: RepaintBoundary(
                 key: globalKey,
                 child: QrImage(
