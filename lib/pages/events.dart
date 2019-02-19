@@ -27,10 +27,9 @@ class _EventsState extends State<Events> {
                 onTap: () => setState(() {}),
                 child: addNew(),
               ),
-              (events == null || events.length == 0 ?
+              events == null || events.length == 0 ?
               CircularProgressIndicator()
-              :
-              Expanded(
+              : Expanded(
               child: ListView.builder(
                   itemCount: (events == null ? 0 : events.length),
                   shrinkWrap: true,
@@ -45,7 +44,6 @@ class _EventsState extends State<Events> {
                     );
                   }
               ),
-              )
               )
             ],
           ),
