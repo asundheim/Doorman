@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gatekeeper/auth_service.dart' as authService;
 
-class Auth extends StatefulWidget {
+import 'package:gatekeeper/services/auth_service.dart' as authService;
+
+class Account extends StatefulWidget {
   @override
-  _AuthState createState() => _AuthState();
+  _AccountState createState() => _AccountState();
 }
 
-class _AuthState extends State<Auth> {
-
+class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
