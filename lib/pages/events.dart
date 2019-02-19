@@ -6,13 +6,12 @@ class Events extends StatefulWidget {
   _EventsState createState() => _EventsState();
 }
 
-class _EventsState extends State<Events> {
+List<String> events = List();
 
-  List<String> events;
+class _EventsState extends State<Events> {
 
   @override
   void initState() {
-    events = List();
     _loadEvents();
     super.initState();
   }
