@@ -69,7 +69,6 @@ class _EventsState extends State<Events> {
 
   void _loadEvents() async {
     events = await api.getEvents('ders');
-    setState(() {
-    });
+    setState(() {});
   }
 }
