@@ -70,8 +70,6 @@ class _CodesState extends State<Codes> {
 
   void _getEventIDs() async {
     eventIDs = await api.getEventsForCodes(this.userID);
-    print(eventIDs);
-    print(this.userID);
     setState(() {});
   }
 }

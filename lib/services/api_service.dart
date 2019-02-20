@@ -31,9 +31,7 @@ Future<dynamic> getEvents(String userID) {
   return client.get('$baseURL/user/$userID/parties')
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
-        final List<String> list = List<String>.from(map['events']);
-        print(map['events']);
-        return list;
+        return List<String>.from(map['events']);
       })
       .catchError((Object error) {
         print('error');
@@ -54,7 +52,7 @@ Future<dynamic> getIssuedKeys(String userID, String eventID) {
       });
 }
 
-/// Given an event ownwer [userID], event [eventID], and QR code [qrData]
+/// Given an event owner [userID], event [eventID], and QR code [qrData]
 /// check if the code is valid and scan it if it is
 /// returns [bool] var [success] if completed successfully
 Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
@@ -75,9 +73,7 @@ Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
 Future<dynamic> generateCode(String userID, String eventID) {
   return client.post('$baseURL/user/$userID/party/$eventID/generate')
       .then((Response response) {
-        print(response.body);
         Map<String, dynamic> map = json.decode(response.body);
-        print(map);
         return map['qrCode'];
       })
       .catchError((Object error) {
@@ -102,7 +98,10 @@ Future<dynamic> getCodes(String userID, String eventID) {
 
 /// Adds a base64 string [qrCode] to a user [userID]
 Future<dynamic> registerCode(String userID, String qrCode) {
-  return client.post('$baseURL/user/$userID/codes/register/', headers: {'Content-Type': 'application/json'}, body: json.encode({'code': qrCode}))
+  return client.post('$baseURL/user/$userID/codes/register/',
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({'code': qrCode})
+      )
       .then((Response response) {
         Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);
