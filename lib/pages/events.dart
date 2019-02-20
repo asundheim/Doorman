@@ -6,13 +6,12 @@ class Events extends StatefulWidget {
   _EventsState createState() => _EventsState();
 }
 
-class _EventsState extends State<Events> {
+List<String> events = List();
 
-  List<String> events;
+class _EventsState extends State<Events> {
 
   @override
   void initState() {
-    events = List();
     _loadEvents();
     super.initState();
   }
@@ -27,7 +26,9 @@ class _EventsState extends State<Events> {
                 onTap: () => setState(() {}),
                 child: addNew(),
               ),
-              Expanded(
+              events == null || events.length == 0 ?
+              CircularProgressIndicator()
+              : Expanded(
               child: ListView.builder(
                   itemCount: (events == null ? 0 : events.length),
                   shrinkWrap: true,
@@ -42,7 +43,7 @@ class _EventsState extends State<Events> {
                     );
                   }
               ),
-              ),
+              )
             ],
           ),
         )
@@ -68,7 +69,6 @@ class _EventsState extends State<Events> {
 
   void _loadEvents() async {
     events = await api.getEvents('ders');
-    setState(() {
-    });
+    setState(() {});
   }
 }

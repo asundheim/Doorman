@@ -20,6 +20,7 @@ dependencies:
   qr_flutter: ^1.1.6
   path_provider: ^0.5.0+1
   google_sign_in: ^4.0.1
+  url_launcher: ^4.0.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
