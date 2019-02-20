@@ -23,7 +23,7 @@ class _CodeListState extends State<CodeList> {
 
   @override
   void initState() {
-    _getEventIDs();
+    _getCodes();
     super.initState();
   }
 
@@ -42,25 +42,37 @@ class _CodeListState extends State<CodeList> {
                   ListTile(
                     title: Text('No Codes found for this event'),
                     subtitle: Text('Tap to add a random code to this event'),
-                    onTap: _generateRandomCode,
+                    onTap: () => _generateRandomCode(),
                   )
                 ],
               ): ListView.builder(
-                  shrinkWrap: true,
                   itemCount: codes.length,
-                  itemBuilder: (BuildContext context, int index) => QrImage(
-                      data: codes[index].rawData,
-                      size: 200.0,
-                  ),
-              ),
-            )
-          ],
-        ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        child: Center(
+                          child: Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: QrImage(
+                                data: codes[index].rawData,
+                                version: 7,
+                                onError: (dynamic ex) {
+                                  print('[QR] ERROR - $ex');
+                                  setState(() {});
+                                }
+                              )
+                          ),
+                        )
+                    );
+                  }
+              )
+            ),
+          ]
+        )
       )
     );
   }
 
-  void _getEventIDs() async {
+  void _getCodes() async {
     codes = await api.getCodes(this.userID, this.eventID);
     setState(() {});
   }
@@ -68,6 +80,6 @@ class _CodeListState extends State<CodeList> {
   void _generateRandomCode() async {
     String code = await api.generateCode(this.userID, this.eventID);
     await api.registerCode(this.userID, code);
-    _getEventIDs();
+    _getCodes();
   }
 }

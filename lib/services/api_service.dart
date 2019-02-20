@@ -5,7 +5,7 @@ import 'package:gatekeeper/classes/qrcode.dart';
 import 'package:http/http.dart';
 
 Client client = Client();
-const String baseURL = 'https://gatekeeper.sundheim.online';
+const String baseURL = 'http://10.0.2.2:8080';
 
 /// Create new event given [userID]
 Future<dynamic> createEvent(String userID) {
@@ -18,7 +18,7 @@ Future<dynamic> createEvent(String userID) {
   return client.post('$baseURL/user/$userID/newparty/$partyID')
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
-        print(map['success']);
+        return partyID;
       })
       .catchError((Object e) {
         print('Error');
@@ -58,7 +58,7 @@ Future<dynamic> getIssuedKeys(String userID, String eventID) {
 /// check if the code is valid and scan it if it is
 /// returns [bool] var [success] if completed successfully
 Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
-  return client.post('$baseURL/user/$userID/party/$eventID/verify', body: { 'code': qrData})
+  return client.post('$baseURL/user/$userID/party/$eventID/verify', body: {'code': qrData})
       .then((Response response) {
         Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);
@@ -75,8 +75,10 @@ Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
 Future<dynamic> generateCode(String userID, String eventID) {
   return client.post('$baseURL/user/$userID/party/$eventID/generate')
       .then((Response response) {
+        print(response.body);
         Map<String, dynamic> map = json.decode(response.body);
-        return map['qrcode'];
+        print(map);
+        return map['qrCode'];
       })
       .catchError((Object error) {
         print('error');
@@ -86,10 +88,10 @@ Future<dynamic> generateCode(String userID, String eventID) {
 
 /// Gets codes a user [userID] owns for event [eventID]
 Future<dynamic> getCodes(String userID, String eventID) {
-  return client.get('$baseURL/user/$userID/codes/$eventID')
+  return client.get('$baseURL/user/$userID/codes/$eventID/codes')
       .then((Response response) {
         Map<String, dynamic> map = json.decode(response.body);
-        return List<String>.from(map['codes']).map((String code) => QRCode(code));
+        return List<String>.from(map['codes']).map((String code) => QRCode(code)).toList();
       })
       .catchError((Object error) {
         print('error');
@@ -100,11 +102,11 @@ Future<dynamic> getCodes(String userID, String eventID) {
 
 /// Adds a base64 string [qrCode] to a user [userID]
 Future<dynamic> registerCode(String userID, String qrCode) {
-  return client.post('$baseURL/user/$userID/codes/register/', body: {'code': qrCode})
-      .then((Response repsonse){
-        Map<String, dynamic> map = json.decode(repsonse.body);
+  return client.post('$baseURL/user/$userID/codes/register/', headers: {'Content-Type': 'application/json'}, body: json.encode({'code': qrCode}))
+      .then((Response response) {
+        Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);
-        return map['success'] as bool;
+        return map['success'];
       })
       .catchError((Object error) {
         print('error');

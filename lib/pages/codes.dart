@@ -40,7 +40,7 @@ class _CodesState extends State<Codes> {
                     title: Text('Tap to test QR Codes page'),
                     onTap: () => Navigator.push(
                       context, MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => CodeList(userID:'ders', eventID:'grlz'))),
+                      builder: (BuildContext context) => CodeList(userID:'ders', eventID:'rofq'))),
                     ),
                   ),
                 ],
@@ -70,6 +70,8 @@ class _CodesState extends State<Codes> {
 
   void _getEventIDs() async {
     eventIDs = await api.getEventsForCodes(this.userID);
+    print(eventIDs);
+    print(this.userID);
     setState(() {});
   }
 }
