@@ -23,7 +23,9 @@ class _HomeState extends State<Home> {
     Events(),
     Scanner(),
     Codes(userID: 'ders'),
+  ];
   @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Gatekeeper'),
