@@ -5,27 +5,22 @@ import 'package:flutter/material.dart';
 
 class Scanner extends StatefulWidget {
   @override
-  _ScanState createState() => new _ScanState();
+  _ScanState createState() => _ScanState();
 }
 
 class _ScanState extends State<Scanner> {
-  String barcode = "";
-
-  @override
-  initState() {
-    super.initState();
-  }
+  String barcode = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: new Center(
-          child: new Column(
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: RaisedButton(
                     color: Colors.blue,
                     textColor: Colors.white,
@@ -35,7 +30,7 @@ class _ScanState extends State<Scanner> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Text(barcode, textAlign: TextAlign.center,),
               ),
             ],
@@ -43,8 +38,8 @@ class _ScanState extends State<Scanner> {
         ));
   }
 
-  Future scan() async {
-    String barcode = await QRCodeReader().scan();
+  Future<void> scan() async {
+    final String barcode = await QRCodeReader().scan();
     setState(() => this.barcode = utf8.decode(base64Decode(barcode)));
   }
 }

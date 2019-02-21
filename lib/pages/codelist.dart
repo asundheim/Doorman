@@ -7,10 +7,10 @@ class CodeList extends StatefulWidget {
   final String eventID;
   final String userID;
 
-  CodeList({Key key, @required this.userID, @required this.eventID}) : super(key: key);
+  const CodeList({Key key, @required this.userID, @required this.eventID}) : super(key: key);
 
   @override
-  _CodeListState createState() => _CodeListState(userID: this.userID, eventID: this.eventID);
+  _CodeListState createState() => _CodeListState(userID: userID, eventID: eventID);
 }
 
 List<QRCode> codes;
@@ -19,7 +19,7 @@ class _CodeListState extends State<CodeList> {
   final String eventID;
   final String userID;
 
-  _CodeListState({Key key, @required this.userID, @required this.eventID}) : super();
+  _CodeListState({@required this.userID, @required this.eventID}) : super();
 
   @override
   void initState() {
@@ -34,14 +34,14 @@ class _CodeListState extends State<CodeList> {
       body: Material(
         child: Column(
           children: <Widget>[
-            codes == null ? CircularProgressIndicator() : Expanded(
-              child: codes.length == 0 ?
+            codes == null ? const CircularProgressIndicator() : Expanded(
+              child: codes.isEmpty ?
               ListView(
                 shrinkWrap: true,
                 children: <Widget>[
                   ListTile(
-                    title: Text('No Codes found for this event'),
-                    subtitle: Text('Tap to add a random code to this event'),
+                    title: const Text('No Codes found for this event'),
+                    subtitle: const Text('Tap to add a random code to this event'),
                     onTap: () => _generateRandomCode(),
                   )
                 ],
@@ -73,13 +73,13 @@ class _CodeListState extends State<CodeList> {
   }
 
   void _getCodes() async {
-    codes = await api.getCodes(this.userID, this.eventID);
+    codes = await api.getCodes(userID, eventID);
     setState(() {});
   }
 
   void _generateRandomCode() async {
-    String code = await api.generateCode(this.userID, this.eventID);
-    await api.registerCode(this.userID, code);
+    final String code = await api.generateCode(userID, eventID);
+    await api.registerCode(userID, code);
     _getCodes();
   }
 }

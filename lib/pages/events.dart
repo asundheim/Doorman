@@ -6,7 +6,7 @@ class Events extends StatefulWidget {
   _EventsState createState() => _EventsState();
 }
 
-List<String> events = List();
+List<String> events = List<String>();
 
 class _EventsState extends State<Events> {
 
@@ -20,9 +20,9 @@ class _EventsState extends State<Events> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        tooltip: "Create new Event",
-          child: Icon(Icons.add),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateNewEvent()))),
+        tooltip: 'Create new Event',
+          child: const Icon(Icons.add),
+          onPressed: () => Navigator.push(context, MaterialPageRoute<CreateNewEvent>(builder: (BuildContext context) => CreateNewEvent()))),
         body: Material(
           child: Column(
             children: <Widget>[
@@ -30,11 +30,11 @@ class _EventsState extends State<Events> {
                 onTap: () => setState(() {}),
                 child: addNew(),
               ),
-              events == null || events.length == 0 ?
-              CircularProgressIndicator()
+              events == null || events.isEmpty ?
+              const CircularProgressIndicator()
               : Expanded(
               child: ListView.builder(
-                  itemCount: (events == null ? 0 : events.length),
+                  itemCount: events == null ? 0 : events.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int index) {
@@ -93,15 +93,15 @@ class _CreateNewEventState extends State<CreateNewEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create new event'),
+        title: const Text('Create new event'),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             _createEvent(eventName, eventDescription, eventAddress, eventDateTime);
             Navigator.pop(context);
           },
-        tooltip: "Submit",
-        child: Icon(Icons.check),
+        tooltip: 'Submit',
+        child: const Icon(Icons.check),
       ),
       body: Material(
       child: Padding(
@@ -124,19 +124,19 @@ class _CreateNewEventState extends State<CreateNewEvent> {
                   eventName = value;
                 },
               ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.description),
-              labelText: 'Event Discription',
-              hintText: 'Strict spiderman theme, will turn away anyone who does not conform, extended universe is fair',
-            ),
-            maxLines: 5,
-            autocorrect: true,
-            onSaved: (String value) {
-              eventDescription = value;
-            },
-          ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.description),
+                  labelText: 'Event Discription',
+                  hintText: 'Strict spiderman theme, will turn away anyone who does not conform, extended universe is fair',
+                ),
+                maxLines: 5,
+                autocorrect: true,
+                onSaved: (String value) {
+                  eventDescription = value;
+                },
+              ),
               TextFormField(
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -173,7 +173,7 @@ class _CreateNewEventState extends State<CreateNewEvent> {
 
 // TODO move to service and finish
 
-Future<void> _createEvent(String name, description, address, dateTime) {
+Future<void> _createEvent(String name, String description, String address, String dateTime) {
   // TODO send data to the server
 }
 

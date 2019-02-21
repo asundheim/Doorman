@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:convert';
+import 'dart:math';
 import 'package:gatekeeper/classes/qrcode.dart';
 import 'package:http/http.dart';
 
 Client client = Client();
-const String baseURL = 'http://10.0.2.2:8080';
+const String baseURL = 'https://gatekeeper.sundheim.online';
 
 /// Create new event given [userID]
 Future<dynamic> createEvent(String userID) {
-  Random rand = Random();
+  final Random rand = Random();
   const String alphaString = 'abcdefghijklmnopqrstuvwxyz';
   String partyID = '';
   for (int i = 0; i < 4; i++) {
@@ -43,7 +43,7 @@ Future<dynamic> getEvents(String userID) {
 Future<dynamic> getIssuedKeys(String userID, String eventID) {
   return client.get('$baseURL/user/$userID/issued')
       .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+        final Map<String, dynamic> map = json.decode(response.body);
         print(map['issued']);
       })
       .catchError((Object error) {
@@ -58,7 +58,7 @@ Future<dynamic> getIssuedKeys(String userID, String eventID) {
 Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
   return client.post('$baseURL/user/$userID/party/$eventID/verify', body: {'code': qrData})
       .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+        final Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);
         print(map['success']);
       })
@@ -72,8 +72,8 @@ Future<dynamic> verifyCode(String userID, String eventID, String qrData) {
 /// for the owner [userID] of the event [eventID]
 Future<dynamic> generateCode(String userID, String eventID) {
   return client.post('$baseURL/user/$userID/party/$eventID/generate')
-      .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+      .then<Response>((Response response) {
+        final Map<String, dynamic> map = json.decode(response.body);
         return map['qrCode'];
       })
       .catchError((Object error) {
@@ -86,7 +86,7 @@ Future<dynamic> generateCode(String userID, String eventID) {
 Future<dynamic> getCodes(String userID, String eventID) {
   return client.get('$baseURL/user/$userID/codes/$eventID/codes')
       .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+        final Map<String, dynamic> map = json.decode(response.body);
         return List<String>.from(map['codes']).map((String code) => QRCode(code)).toList();
       })
       .catchError((Object error) {
@@ -102,8 +102,8 @@ Future<dynamic> registerCode(String userID, String qrCode) {
           headers: {'Content-Type': 'application/json'},
           body: json.encode({'code': qrCode})
       )
-      .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+      .then<Response>((Response response) {
+        final Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);
         return map['success'];
       })
@@ -117,7 +117,7 @@ Future<dynamic> registerCode(String userID, String qrCode) {
 Future<dynamic> getEventsForCodes(String userID) {
   return client.get('$baseURL/user/$userID/codes/events')
       .then((Response response) {
-        Map<String, dynamic> map = json.decode(response.body);
+        final Map<String, dynamic> map = json.decode(response.body);
         return List<String>.from(map['ids']);
       })
       .catchError((Object error) {

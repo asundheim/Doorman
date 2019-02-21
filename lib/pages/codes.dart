@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import './codelist.dart';
 import '../services/api_service.dart' as api;
+import './codelist.dart';
 
 class Codes extends StatefulWidget {
   final String userID;
 
-  Codes({Key key, @required this.userID}): super(key: key);
+  const Codes({Key key, @required this.userID}): super(key: key);
 
   @override
-  _CodesState createState() => _CodesState(userID: this.userID);
+  _CodesState createState() => _CodesState(userID: userID);
 }
 
 List<String> eventIDs;
@@ -16,7 +16,7 @@ List<String> eventIDs;
 class _CodesState extends State<Codes> {
   final String userID;
 
-  _CodesState({Key key, @required this.userID}): super();
+  _CodesState({@required this.userID}): super();
 
   @override
   void initState() {
@@ -30,17 +30,17 @@ class _CodesState extends State<Codes> {
         body: Material(
           child: Column(
             children: <Widget>[
-              eventIDs != null && eventIDs.length == 0 ?
+              eventIDs != null && eventIDs.isEmpty ?
               ListView(
                 shrinkWrap: true,
                 children: <Widget>[
                   InkWell(
                     onTap: () => setState(() {}),
                     child: ListTile(
-                    title: Text('Tap to test QR Codes page'),
-                    onTap: () => Navigator.push(
+                    title: const Text('Tap to test QR Codes page'),
+                    onTap: () => Navigator.push<dynamic>(
                       context, MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => CodeList(userID:'ders', eventID:'rofq'))),
+                      builder: (BuildContext context) => const CodeList(userID:'ders', eventID:'rofq'))),
                     ),
                   ),
                 ],
@@ -54,9 +54,9 @@ class _CodesState extends State<Codes> {
                       InkWell(
                         child: ListTile(
                           title: Text(eventIDs[index]),
-                          onTap: () => Navigator.push(
+                          onTap: () => Navigator.push<dynamic>(
                             context, MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => CodeList(userID: this.userID, eventID: eventIDs[index]))
+                            builder: (BuildContext context) => CodeList(userID: userID, eventID: eventIDs[index]))
                           ),
                         )
                       )
@@ -69,7 +69,7 @@ class _CodesState extends State<Codes> {
   }
 
   void _getEventIDs() async {
-    eventIDs = await api.getEventsForCodes(this.userID);
+    eventIDs = await api.getEventsForCodes(userID);
     setState(() {});
   }
 }

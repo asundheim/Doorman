@@ -15,11 +15,11 @@ class _AccountState extends State<Account> {
         child: Column(
           children: <Widget>[
             RaisedButton(
-              child: Text('Sign In'),
+              child: const Text('Sign In'),
               onPressed: () => authService.handleSignIn(),
             ),
             RaisedButton(
-              child: Text('Sign Out'),
+              child: const Text('Sign Out'),
               onPressed: () => authService.handleSignOut(),
             )
             //Text(currentUser),
