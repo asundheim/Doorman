@@ -22,6 +22,7 @@ class _EventsState extends State<Events> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         tooltip: "Create new Event",
+          child: Icon(Icons.add),
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateNewEvent()))),
         body: Material(
           child: Column(
@@ -94,6 +95,14 @@ class _CreateNewEventState extends State<CreateNewEvent> {
       appBar: AppBar(
         title: Text('Create new event'),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _createEvent(eventName, eventDescription, eventAddress, eventDateTime);
+            Navigator.pop(context);
+          },
+        tooltip: "Submit",
+        child: Icon(Icons.check),
+      ),
       body: Material(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -145,7 +154,7 @@ class _CreateNewEventState extends State<CreateNewEvent> {
                 keyboardType: TextInputType.datetime,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.calendar_today),
-                  labelText: 'Time (replace with datetime picker',
+                  labelText: 'Time (replace with datetime picker)',
                   hintText: '12/1/1 5:00pm',
                 ),
                 maxLines: 1,
@@ -153,15 +162,6 @@ class _CreateNewEventState extends State<CreateNewEvent> {
                   eventDateTime = value;
                 },
               ),
-                Padding(
-                  padding: EdgeInsets.only(top:16.0),
-                ),
-                // TODO maybe change to a save button on top right
-                RaisedButton(
-                  child: Text('Submit'),
-                  onPressed: () => _createEvent(eventName, eventDescription, eventAddress, eventDateTime),
-                ),
-
             ],
           ),
         ),

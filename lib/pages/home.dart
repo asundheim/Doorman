@@ -4,6 +4,7 @@ import './qrgenerator.dart';
 import './auth.dart';
 import './events.dart';
 import './settings.dart';
+import './code.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key:key);
@@ -17,7 +18,7 @@ class _HomeState extends State<Home> {
   final _widgetOptions = [
     Events(),
     Scanner(),
-    Auth()
+    MyCodes(),
   ];
 
   @override
