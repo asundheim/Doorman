@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gatekeeper/auth_service.dart' as authService;
+import 'package:gatekeeper/services/auth_service.dart' as authService;
 
 class Auth extends StatefulWidget {
   @override

@@ -20,6 +20,9 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Create new Event",
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CreateNewEvent()))),
         body: Material(
           child: Column(
             children: <Widget>[
@@ -72,3 +75,105 @@ class _EventsState extends State<Events> {
     });
   }
 }
+
+class CreateNewEvent extends StatefulWidget {
+  @override
+  _CreateNewEventState createState() => _CreateNewEventState();
+}
+
+class _CreateNewEventState extends State<CreateNewEvent> {
+
+  String eventName;
+  String eventDescription;
+  String eventAddress;
+  String eventDateTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Create new event'),
+      ),
+      body: Material(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+              children: <Widget>[
+                // TODO add text validators to TextFormFields
+              TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.event_note),
+                  labelText: 'Event Name',
+                  hintText: 'Phineas\' intimate get together',
+                ),
+                maxLength: 30,
+                autocorrect: true,
+                maxLengthEnforced: true,
+                onSaved: (String value) {
+                  eventName = value;
+                },
+              ),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.description),
+              labelText: 'Event Discription',
+              hintText: 'Strict spiderman theme, will turn away anyone who does not conform, extended universe is fair',
+            ),
+            maxLines: 5,
+            autocorrect: true,
+            onSaved: (String value) {
+              eventDescription = value;
+            },
+          ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.location_on),
+                  labelText: 'Address',
+                  hintText: '221B Baker St',
+                ),
+                maxLines: 1,
+                autocorrect: true,
+                onSaved: (String value) {
+                  eventAddress = value;
+                },
+              ),
+              TextFormField(
+                keyboardType: TextInputType.datetime,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.calendar_today),
+                  labelText: 'Time (replace with datetime picker',
+                  hintText: '12/1/1 5:00pm',
+                ),
+                maxLines: 1,
+                onSaved: (String value) {
+                  eventDateTime = value;
+                },
+              ),
+                Padding(
+                  padding: EdgeInsets.only(top:16.0),
+                ),
+                // TODO maybe change to a save button on top right
+                RaisedButton(
+                  child: Text('Submit'),
+                  onPressed: () => _createEvent(eventName, eventDescription, eventAddress, eventDateTime),
+                ),
+
+            ],
+          ),
+        ),
+      ),
+    ),
+    );
+  }
+}
+
+// TODO move to service and finish
+
+Future<void> _createEvent(String name, description, address, dateTime) {
+  // TODO send data to the server
+}
+
