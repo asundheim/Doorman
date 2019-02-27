@@ -91,7 +91,7 @@ class _ScanState extends State<ScanChooser> {
           children: const <Widget>[
             CircularProgressIndicator(),
             Padding(
-              padding: EdgeInsets.all(1.0),
+              padding: EdgeInsets.all(24.0),
             ),
             Text('Loading')
           ],

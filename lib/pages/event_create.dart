@@ -1,39 +1,40 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import '../widgets/datetimepicker.dart';
 
-class EventEdit extends StatefulWidget {
-  final Event event;
+class EventCreate extends StatefulWidget {
+  final String userID;
 
-  const EventEdit({Key key, @required this.event}): super(key: key);
+  const EventCreate({Key key, @required this.userID}): super(key: key);
 
   @override
-  _EventEditState createState() => _EventEditState(event: event);
+  _EventCreateState createState() => _EventCreateState(userID: userID);
 }
 
-class _EventEditState extends State<EventEdit> {
+class _EventCreateState extends State<EventCreate> {
   Event event;
-  DateTime _date;
-  TimeOfDay _time;
+  DateTime _date = DateTime.now();
+  TimeOfDay _time =  const TimeOfDay(hour: 22, minute: 0);
 
-  _EventEditState({@required this.event}) {
-    _date = DateTime.fromMillisecondsSinceEpoch(event.dateTime);
-    _time = TimeOfDay(hour: _date.hour, minute: _date.minute);
+  _EventCreateState({@required String userID}) {
+    event = Event(userID: userID, eventID: _newEventID());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _saveEvent(context),
-        tooltip: 'Save',
-        child: const Icon(Icons.save),
-      ),
-      body: DropdownButtonHideUnderline(
+        appBar: AppBar(
+          title: const Text('Create'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _createEvent(context),
+          tooltip: 'Create',
+          child: const Icon(Icons.save),
+        ),
+        body: DropdownButtonHideUnderline(
           child: SafeArea(
             top: false,
             bottom: false,
@@ -46,9 +47,8 @@ class _EventEditState extends State<EventEdit> {
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                           icon: Icon(Icons.event_note),
-                          labelText: 'Name'
+                          labelText: 'Name',
                       ),
-                      controller: TextEditingController(text: event.name),
                       autocorrect: true,
                       onChanged: (String value) {
                         event.name = value;
@@ -60,7 +60,6 @@ class _EventEditState extends State<EventEdit> {
                         icon: Icon(Icons.description),
                         labelText: 'Description',
                       ),
-                      controller: TextEditingController(text: event.description),
                       autocorrect: true,
                       onChanged: (String value) {
                         event.description = value;
@@ -72,7 +71,6 @@ class _EventEditState extends State<EventEdit> {
                         icon: Icon(Icons.location_on),
                         labelText: 'Address',
                       ),
-                      controller: TextEditingController(text: event.location),
                       maxLines: 1,
                       autocorrect: true,
                       onChanged: (String value) {
@@ -100,14 +98,22 @@ class _EventEditState extends State<EventEdit> {
                 )
             ),
           ),
-      )
+        )
     );
   }
 
-  void _saveEvent(BuildContext context) async {
-    await api.editEvent(event);
+  String _newEventID() {
+    final Random rand = Random();
+    const String alphaString = 'abcdefghijklmnopqrstuvwxyz';
+    String partyID = '';
+    for (int i = 0; i < 6; i++) {
+      partyID += alphaString[rand.nextInt(26)];
+    }
+    return partyID;
+  }
+
+  void _createEvent(BuildContext context) async {
+    await api.createEvent(event);
     Navigator.pop(context);
   }
 }
-
-

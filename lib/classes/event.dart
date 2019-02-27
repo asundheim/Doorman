@@ -6,7 +6,7 @@ class Event {
   String name;
   String description;
   String location;
-  String dateTime;
+  int dateTime;
 
-  Event({@required this.userID, @required this.eventID, this.name = '', this.description = '', this.location = '', this.dateTime = ''});
+  Event({@required this.userID, @required this.eventID, this.name = '', this.description = '', this.location = '', this.dateTime = 1551303338});
 }

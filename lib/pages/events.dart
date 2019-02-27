@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
+import './event_create.dart';
 import './event_edit.dart';
-
 
 class Events extends StatefulWidget {
   final String userID;
@@ -15,17 +15,14 @@ class Events extends StatefulWidget {
   _EventsState createState() => _EventsState(userID: userID);
 }
 
-List<Event> events = List<Event>();
+
 
 class _EventsState extends State<Events> {
   String userID;
+  List<Event> events = List<Event>();
 
-  _EventsState({@required this.userID}): super();
-
-  @override
-  void initState() {
+  _EventsState({@required this.userID}) {
     _loadEvents();
-    super.initState();
   }
 
   @override
@@ -34,18 +31,22 @@ class _EventsState extends State<Events> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Create new Event',
           child: const Icon(Icons.add),
-          onPressed: () => Navigator.push(context, MaterialPageRoute<CreateNewEvent>(builder: (BuildContext context) => CreateNewEvent()))),
+          onPressed: () => Navigator.push(context, MaterialPageRoute<EventCreate>(builder: (BuildContext context) => EventCreate(userID: userID)))),
         body: Material(
-          child: Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () => setState(() {}),
-                child: addNew(),
-              ),
-              events == null || events.isEmpty ?
-              const CircularProgressIndicator()
-              : Expanded(
-              child: ListView.builder(
+          child: events == null || events.isEmpty ?
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    CircularProgressIndicator(),
+                    Padding(
+                      padding: EdgeInsets.all(24.0),
+                    ),
+                    Text('Loading')
+                  ],
+                ),
+              )
+              : ListView.builder(
                   itemCount: events == null ? 0 : events.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -60,149 +61,18 @@ class _EventsState extends State<Events> {
                               icon: const Icon(Icons.tune),
                               onPressed: () => Navigator.push(
                                   context,
-                                  MaterialPageRoute<CreateNewEvent>(builder: (BuildContext context) => EventEdit())),
+                                  MaterialPageRoute<EventEdit>(builder: (BuildContext context) => EventEdit(event: events[index]))),
                           ),
                         )
                     );
                   }
               ),
-              )
-            ],
-          ),
         )
     );
   }
-
-  Widget addNew() =>
-      ListTile(
-        title: const Text('Create New Event'),
-        subtitle: const Text('Tap to create a new event'),
-        onTap: () {
-          api.createEvent(Event(userID: 'ders', eventID: newEventID()))
-              .then((bool value) => print('Success: ' + value.toString()));
-          _loadEvents();
-        },
-      );
-
-  Widget getEvents() =>
-      ListTile(
-        title: const Text('Get Events'),
-        subtitle: const Text('Tap to dump events to console'),
-        onTap: () => api.getEvents('ders'),
-      );
 
   void _loadEvents() async {
     events = await api.getEvents(userID);
     setState(() {});
   }
 }
-
-class CreateNewEvent extends StatefulWidget {
-  @override
-  _CreateNewEventState createState() => _CreateNewEventState();
-}
-
-class _CreateNewEventState extends State<CreateNewEvent> {
-
-  String eventName;
-  String eventDescription;
-  String eventAddress;
-  String eventDateTime;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create new event'),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _createEvent(eventName, eventDescription, eventAddress, eventDateTime);
-            Navigator.pop(context);
-          },
-        tooltip: 'Submit',
-        child: const Icon(Icons.check),
-      ),
-      body: Material(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-              children: <Widget>[
-                // TODO add text validators to TextFormFields
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.event_note),
-                  labelText: 'Event Name',
-                  hintText: 'Phineas\' intimate get together',
-                ),
-                maxLength: 30,
-                autocorrect: true,
-                maxLengthEnforced: true,
-                onSaved: (String value) {
-                  eventName = value;
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.description),
-                  labelText: 'Event Discription',
-                  hintText: 'Strict spiderman theme, will turn away anyone who does not conform, extended universe is fair',
-                ),
-                maxLines: 5,
-                autocorrect: true,
-                onSaved: (String value) {
-                  eventDescription = value;
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.location_on),
-                  labelText: 'Address',
-                  hintText: '221B Baker St',
-                ),
-                maxLines: 1,
-                autocorrect: true,
-                onSaved: (String value) {
-                  eventAddress = value;
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.calendar_today),
-                  labelText: 'Time (replace with datetime picker)',
-                  hintText: '12/1/1 5:00pm',
-                ),
-                maxLines: 1,
-                onSaved: (String value) {
-                  eventDateTime = value;
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-    );
-  }
-}
-
-String newEventID() {
-  final Random rand = Random();
-  const String alphaString = 'abcdefghijklmnopqrstuvwxyz';
-  String partyID = '';
-  for (int i = 0; i < 6; i++) {
-    partyID += alphaString[rand.nextInt(26)];
-  }
-  return partyID;
-}
-
-/// TODO move to service and finish
-Future<void> _createEvent(String name, String description, String address, String dateTime) {
-  // TODO send data to the server
-}
-
