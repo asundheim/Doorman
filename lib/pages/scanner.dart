@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
 import '../services/api_service.dart' as api;
@@ -35,6 +33,9 @@ class _ScannerState extends State<Scanner> {
     switch(scanState) {
       case ScanState.loading:
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey,
+          ),
           backgroundColor: Colors.grey,
           body: Center(
             child: Column(
@@ -47,6 +48,9 @@ class _ScannerState extends State<Scanner> {
         );
       case ScanState.valid:
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.green,
+          ),
           backgroundColor: Colors.green,
           body: Center(
             child: Column(
@@ -70,6 +74,9 @@ class _ScannerState extends State<Scanner> {
         );
       case ScanState.invalid:
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.red,
+          ),
           backgroundColor: Colors.red,
           body: Center(
             child: Column(

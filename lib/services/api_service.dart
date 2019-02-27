@@ -11,15 +11,25 @@ const String baseURL = 'https://gatekeeper.sundheim.online';
 
 /// Create new event given [event]
 Future<bool> createEvent(Event event) {
-  return client.post('$baseURL/user/${event.userID}/newparty/${event.eventID}',
+  return client.post('$baseURL/user/${event.userID}/newevent/${event.eventID}',
         headers: jsonHeaders(),
         body: eventBody(event)
       )
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
-        print(map);
         return map['success'] as bool;
       });
+}
+
+Future<bool> editEvent(Event event) {
+  return client.post('$baseURL/user/${event.userID}/editevent/${event.eventID}',
+      headers: jsonHeaders(),
+      body: eventBody(event)
+    )
+    .then((Response response) {
+      final Map<String, dynamic> map = json.decode(response.body);
+      return map['success'] as bool;
+    });
 }
 
 /// Get a users events given [userID]
@@ -33,7 +43,7 @@ Future<List<Event>> getEvents(String userID) {
       });
 }
 
-/// get number of issued keys for [userID] event [eventID]
+/// Get number of issued keys for [userID] event [eventID]
 Future<int> getIssuedKeys(String userID, String eventID) {
   return client.get('$baseURL/user/$userID/issued')
       .then((Response response) {
@@ -61,7 +71,7 @@ Future<bool> verifyCode(String userID, String eventID, String qrData) {
 /// Returns a Base64 String to be encoded into a QR code
 /// for the owner [userID] of the event [eventID]
 Future<String> generateCode(String userID, String eventID) {
-  return client.post('$baseURL/user/$userID/party/$eventID/generate')
+  return client.post('$baseURL/user/$userID/event/$eventID/generate')
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
         return map['qrCode'];
@@ -102,7 +112,7 @@ Future<List<String>> getEventsForCodes(String userID) {
 Map<String, String> jsonHeaders() => <String, String>{'Content-Type': 'application/json'};
 
 String eventBody(Event event) {
-  return json.encode(<String, String>{
+  return json.encode(<String, dynamic>{
     'name': event.name,
     'description': event.description,
     'location': event.location,
