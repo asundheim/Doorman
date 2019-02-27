@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import './account.dart';
 import './codes.dart';
 import './events.dart';
-import './scanner.dart';
+import './scanchooser.dart';
 import './settings.dart';
 
 class Home extends StatefulWidget {
@@ -18,10 +18,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
-  final List<Widget> _widgetOptions = <Widget>[
-    Events(),
-    Scanner(),
-    const Codes(userID: 'ders'),
+  final List<Widget> _widgetOptions = const <Widget>[
+    Events(userID: 'ders'),
+    ScanChooser(userID: 'ders',),
+    Codes(userID: 'ders'),
   ];
   @override
   Widget build(BuildContext context) {
