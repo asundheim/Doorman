@@ -52,7 +52,7 @@ class _ScanState extends State<ScanChooser> {
                     onTap: () => setState(() {}),
                     child: ListTile(
                       title: Text(events[index].name ?? 'Default Name'),
-                      subtitle: Text(events[index].eventID),
+                      subtitle: Text(events[index].description),
                       onTap: () => Navigator.push<dynamic>(
                           context,
                           MaterialPageRoute<dynamic>(

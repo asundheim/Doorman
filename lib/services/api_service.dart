@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:gatekeeper/classes/event.dart';
 import 'package:gatekeeper/classes/qrcode.dart';
 import 'package:http/http.dart';
 
 Client client = Client();
+/// URL for emulator to debug the server
 // const String baseURL = 'http://10.0.2.2:8080';
 const String baseURL = 'https://gatekeeper.sundheim.online';
 
@@ -69,10 +69,12 @@ Future<bool> verifyCode(String userID, String eventID, String qrData) {
 }
 
 /// Returns a Base64 String to be encoded into a QR code
-/// for the owner [userID] of the event [eventID]
-Future<String> generateCode(String userID, String eventID) {
-  return client.post('$baseURL/user/$userID/event/$eventID/generate')
-      .then((Response response) {
+/// for the owner [userID] of the event [eventID] and number of codes [bulk]
+Future<String> generateCode(String userID, String eventID, int bulk) {
+  return client.post('$baseURL/user/$userID/event/$eventID/generate',
+          headers: jsonHeaders(),
+          body: json.encode(<String, dynamic>{ 'bulk': bulk })
+      ).then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
         return map['qrCode'];
       });
@@ -92,7 +94,7 @@ Future<List<QRCode>> getCodes(String userID, String eventID) {
 Future<bool> registerCode(String userID, String qrCode) {
   return client.post('$baseURL/user/$userID/codes/register/',
           headers: jsonHeaders(),
-          body: json.encode(<String, String>{'code': qrCode})
+          body: json.encode(<String, dynamic>{'code': qrCode})
       ).then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
         print(map['message']);

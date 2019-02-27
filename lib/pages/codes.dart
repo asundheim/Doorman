@@ -11,17 +11,12 @@ class Codes extends StatefulWidget {
   _CodesState createState() => _CodesState(userID: userID);
 }
 
-List<String> eventIDs;
-
 class _CodesState extends State<Codes> {
   final String userID;
+  List<String> eventIDs;
 
-  _CodesState({@required this.userID}): super();
-
-  @override
-  void initState() {
+  _CodesState({@required this.userID}) {
     _getEventIDs();
-    super.initState();
   }
 
   @override
@@ -44,8 +39,8 @@ class _CodesState extends State<Codes> {
                     ),
                   ),
                 ],
-              ) :
-              Expanded(
+              )
+              : Expanded(
                 child: ListView.builder(
                     itemCount: eventIDs == null ? 0 : eventIDs.length,
                     shrinkWrap: true,

@@ -56,7 +56,7 @@ class _EventsState extends State<Events> {
                         onTap: () => setState(() {}),
                         child: ListTile(
                           title: Text(events[index].name),
-                          subtitle: Text(events[index].eventID),
+                          subtitle: Text(events[index].description),
                           trailing: IconButton(
                               icon: const Icon(Icons.tune),
                               onPressed: () => Navigator.push(
