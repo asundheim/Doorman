@@ -1,14 +1,26 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import '../classes/event.dart';
 import '../services/api_service.dart' as api;
+import './event_edit.dart';
+
 
 class Events extends StatefulWidget {
+  final String userID;
+
+  const Events({Key key, @required this.userID}): super(key: key);
+
   @override
-  _EventsState createState() => _EventsState();
+  _EventsState createState() => _EventsState(userID: userID);
 }
 
-List<String> events = List<String>();
+List<Event> events = List<Event>();
 
 class _EventsState extends State<Events> {
+  String userID;
+
+  _EventsState({@required this.userID}): super();
 
   @override
   void initState() {
@@ -42,7 +54,14 @@ class _EventsState extends State<Events> {
                     return InkWell(
                         onTap: () => setState(() {}),
                         child: ListTile(
-                          title: Text(events[index]),
+                          title: Text(events[index].name),
+                          subtitle: Text(events[index].eventID),
+                          trailing: IconButton(
+                              icon: const Icon(Icons.tune),
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute<CreateNewEvent>(builder: (BuildContext context) => EventEdit())),
+                          ),
                         )
                     );
                   }
@@ -59,7 +78,8 @@ class _EventsState extends State<Events> {
         title: const Text('Create New Event'),
         subtitle: const Text('Tap to create a new event'),
         onTap: () {
-          api.createEvent('ders');
+          api.createEvent(Event(userID: 'ders', eventID: newEventID()))
+              .then((bool value) => print('Success: ' + value.toString()));
           _loadEvents();
         },
       );
@@ -72,7 +92,7 @@ class _EventsState extends State<Events> {
       );
 
   void _loadEvents() async {
-    events = await api.getEvents('ders');
+    events = await api.getEvents(userID);
     setState(() {});
   }
 }
@@ -171,8 +191,17 @@ class _CreateNewEventState extends State<CreateNewEvent> {
   }
 }
 
-// TODO move to service and finish
+String newEventID() {
+  final Random rand = Random();
+  const String alphaString = 'abcdefghijklmnopqrstuvwxyz';
+  String partyID = '';
+  for (int i = 0; i < 6; i++) {
+    partyID += alphaString[rand.nextInt(26)];
+  }
+  return partyID;
+}
 
+/// TODO move to service and finish
 Future<void> _createEvent(String name, String description, String address, String dateTime) {
   // TODO send data to the server
 }

@@ -1,45 +1,117 @@
-import 'dart:async';
 import 'dart:convert';
-import 'package:qrcode_reader/qrcode_reader.dart';
+
 import 'package:flutter/material.dart';
+import 'package:qrcode_reader/qrcode_reader.dart';
+import '../services/api_service.dart' as api;
+
+enum ScanState { valid, invalid, loading }
 
 class Scanner extends StatefulWidget {
+  final String userID;
+  final String eventID;
+
+  const Scanner({Key key, @required this.userID, @required this.eventID}): super(key: key);
+
   @override
-  _ScanState createState() => _ScanState();
+  _ScannerState createState() => _ScannerState(userID: userID, eventID: eventID);
 }
 
-class _ScanState extends State<Scanner> {
-  String barcode = '';
+class _ScannerState extends State<Scanner> {
+  String userID;
+  String eventID;
+  ScanState scanState = ScanState.loading;
+
+  _ScannerState({@required this.userID, @required this.eventID}): super();
+
+
+  @override
+  void initState() {
+    scan(eventID);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: RaisedButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    splashColor: Colors.blueGrey,
-                    onPressed: scan,
-                    child: const Text('START CAMERA SCAN')
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode, textAlign: TextAlign.center,),
-              ),
-            ],
+    switch(scanState) {
+      case ScanState.loading:
+        return Scaffold(
+          backgroundColor: Colors.grey,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                CircularProgressIndicator(),
+              ],
+            ),
           ),
-        ));
+        );
+      case ScanState.valid:
+        return Scaffold(
+          backgroundColor: Colors.green,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Icon(Icons.check_circle, size: 48.0),
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                ),
+                RaisedButton(
+                  color: Colors.greenAccent,
+                  child: const Text('Scan again'),
+                  onPressed: () {
+                    setState(() => scanState = ScanState.loading);
+                    scan(eventID);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      case ScanState.invalid:
+        return Scaffold(
+          backgroundColor: Colors.red,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Icon(Icons.not_interested, size: 48.0),
+                const Padding(
+                  padding: EdgeInsets.all(12.0),
+                ),
+                RaisedButton(
+                  color: Colors.redAccent,
+                  child: const Text('Scan again'),
+                  onPressed: () {
+                    setState(() => scanState = ScanState.loading);
+                    scan(eventID);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+    }
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text('Error'),
+          ],
+        ),
+      ),
+    );
   }
 
-  Future<void> scan() async {
-    final String barcode = await QRCodeReader().scan();
-    setState(() => this.barcode = utf8.decode(base64Decode(barcode)));
+  Future<void> scan(String eventID) async {
+    String barcode = await QRCodeReader().scan();
+    barcode ??= 'a-a-a-a-a';
+    if (await api.verifyCode(userID, eventID, barcode)) {
+      scanState = ScanState.valid;
+    } else {
+      scanState = ScanState.invalid;
+    }
+    setState(() {});
   }
 }

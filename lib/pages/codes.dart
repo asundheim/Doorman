@@ -40,7 +40,7 @@ class _CodesState extends State<Codes> {
                     title: const Text('Tap to test QR Codes page'),
                     onTap: () => Navigator.push<dynamic>(
                       context, MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const CodeList(userID:'ders', eventID:'rofq'))),
+                      builder: (BuildContext context) => const CodeList(userID:'ders', eventID:'agrmny'))),
                     ),
                   ),
                 ],
