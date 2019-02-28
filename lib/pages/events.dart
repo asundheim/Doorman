@@ -5,6 +5,7 @@ import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import './event_create.dart';
 import './event_edit.dart';
+import './event_invite.dart';
 
 class Events extends StatefulWidget {
   final String userID;
@@ -56,12 +57,16 @@ class _EventsState extends State<Events> {
                         onTap: () => setState(() {}),
                         child: ListTile(
                           title: Text(events[index].name),
-                          subtitle: Text(events[index].eventID),
+                          subtitle: Text(events[index].description),
                           trailing: IconButton(
                               icon: const Icon(Icons.tune),
                               onPressed: () => Navigator.push(
                                   context,
                                   MaterialPageRoute<EventEdit>(builder: (BuildContext context) => EventEdit(event: events[index]))),
+                          ),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute<EventInvite>(builder: (BuildContext context) => EventInvite(userID: userID, eventID: events[index].eventID,))
                           ),
                         )
                     );

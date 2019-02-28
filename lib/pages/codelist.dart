@@ -29,7 +29,6 @@ class _CodeListState extends State<CodeList> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Material(
         child: Column(
@@ -78,7 +77,7 @@ class _CodeListState extends State<CodeList> {
   }
 
   void _generateRandomCode() async {
-    final String code = await api.generateCode(userID, eventID);
+    final String code = await api.generateCode(userID, eventID, 1);
     await api.registerCode(userID, code);
     _getCodes();
   }

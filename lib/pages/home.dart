@@ -18,11 +18,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
-  final List<Widget> _widgetOptions = const <Widget>[
-    Events(userID: 'ders'),
-    ScanChooser(userID: 'ders',),
-    Codes(userID: 'ders'),
-  ];
+  String userID = 'ders';
+  List<Widget> _widgetOptions;
+
+  _HomeState() {
+    _widgetOptions = <Widget>[
+      Events(userID: userID),
+      ScanChooser(userID: userID),
+      Codes(userID: userID),
+    ];
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,14 +72,7 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.help),
                     contentPadding: EdgeInsets.all(0.0),
                   ),
-                ]
-                    .map(
-                      (ListTile x) => PopupMenuItem<Text>(
-                            value: x.title,
-                            child: x,
-                          ),
-                    )
-                    .toList(),
+                ].map((ListTile x) => PopupMenuItem<Text>(value: x.title, child: x,)).toList(),
           ),
         ],
       ),

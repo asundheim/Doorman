@@ -18,6 +18,7 @@ class _EventCreateState extends State<EventCreate> {
   Event event;
   DateTime _date = DateTime.now();
   TimeOfDay _time =  const TimeOfDay(hour: 22, minute: 0);
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _EventCreateState({@required String userID}) {
     event = Event(userID: userID, eventID: _newEventID());
@@ -26,6 +27,7 @@ class _EventCreateState extends State<EventCreate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('Create'),
         ),
@@ -112,8 +114,12 @@ class _EventCreateState extends State<EventCreate> {
     return partyID;
   }
 
+  final SnackBar _loadingSnackBar = const SnackBar(backgroundColor: Colors.white70, content: Text('Loading', style: TextStyle(color: Colors.black)));
+
   void _createEvent(BuildContext context) async {
+    _scaffoldKey.currentState.showSnackBar(_loadingSnackBar);
     await api.createEvent(event);
+    _scaffoldKey.currentState.hideCurrentSnackBar();
     Navigator.pop(context);
   }
 }
