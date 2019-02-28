@@ -33,8 +33,8 @@ class _CodesState extends State<Codes> {
                     onTap: () => setState(() {}),
                     child: ListTile(
                     title: const Text('Tap to test QR Codes page'),
-                    onTap: () => Navigator.push<dynamic>(
-                      context, MaterialPageRoute<dynamic>(
+                    onTap: () => Navigator.push(
+                      context, MaterialPageRoute<CodeList>(
                       builder: (BuildContext context) => const CodeList(userID:'ders', eventID:'agrmny'))),
                     ),
                   ),

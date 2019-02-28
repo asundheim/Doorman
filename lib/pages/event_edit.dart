@@ -16,6 +16,7 @@ class _EventEditState extends State<EventEdit> {
   Event event;
   DateTime _date;
   TimeOfDay _time;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _EventEditState({@required this.event}) {
     _date = DateTime.fromMillisecondsSinceEpoch(event.dateTime);
@@ -25,6 +26,7 @@ class _EventEditState extends State<EventEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Edit'),
       ),
@@ -104,8 +106,12 @@ class _EventEditState extends State<EventEdit> {
     );
   }
 
+  final SnackBar _loadingSnackBar = const SnackBar(backgroundColor: Colors.white70, content: Text('Loading', style: TextStyle(color: Colors.black)));
+
   void _saveEvent(BuildContext context) async {
+    _scaffoldKey.currentState.showSnackBar(_loadingSnackBar);
     await api.editEvent(event);
+    _scaffoldKey.currentState.hideCurrentSnackBar();
     Navigator.pop(context);
   }
 }

@@ -51,7 +51,7 @@ class _ScanState extends State<ScanChooser> {
                   return InkWell(
                     onTap: () => setState(() {}),
                     child: ListTile(
-                      title: Text(events[index].name ?? 'Default Name'),
+                      title: Text(events[index].name),
                       subtitle: Text(events[index].description),
                       onTap: () => Navigator.push<dynamic>(
                           context,
