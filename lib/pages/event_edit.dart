@@ -36,72 +36,72 @@ class _EventEditState extends State<EventEdit> {
         child: const Icon(Icons.save),
       ),
       body: DropdownButtonHideUnderline(
-          child: SafeArea(
-            top: false,
-            bottom: false,
-            child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    TextField(
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.event_note),
-                          labelText: 'Name'
-                      ),
-                      controller: TextEditingController(text: event.name),
-                      autocorrect: true,
-                      onChanged: (String value) {
-                        event.name = value;
-                      },
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.description),
-                        labelText: 'Description',
-                      ),
-                      controller: TextEditingController(text: event.description),
-                      autocorrect: true,
-                      onChanged: (String value) {
-                        event.description = value;
-                      },
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.location_on),
-                        labelText: 'Address',
-                      ),
-                      controller: TextEditingController(text: event.location),
-                      maxLines: 1,
-                      autocorrect: true,
-                      onChanged: (String value) {
-                        event.location = value;
-                      },
-                    ),
-                    DateTimePicker(
-                      labelText: 'Time',
-                      selectedDate: _date,
-                      selectedTime: _time,
-                      selectDate: (DateTime date) {
-                        setState(() {
-                          _date = date;
-                          event.dateTime = DateTime(date.year, date.month, date.day, _time.hour, _time.minute).millisecondsSinceEpoch;
-                        });
-                      },
-                      selectTime: (TimeOfDay time) {
-                        setState(() {
-                          _time = time;
-                          event.dateTime = DateTime(_date.year, _date.month, _date.day, time.hour, time.minute).millisecondsSinceEpoch;
-                        });
-                      },
-                    ),
-                  ],
-                )
-            ),
+        child: SafeArea(
+          top: false,
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                TextField(
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.event_note),
+                      labelText: 'Name'
+                  ),
+                  controller: TextEditingController(text: event.name),
+                  autocorrect: true,
+                  onChanged: (String value) {
+                    event.name = value;
+                  },
+                ),
+                TextField(
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.description),
+                    labelText: 'Description',
+                  ),
+                  controller: TextEditingController(text: event.description),
+                  autocorrect: true,
+                  onChanged: (String value) {
+                    event.description = value;
+                  },
+                ),
+                TextField(
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.location_on),
+                    labelText: 'Address',
+                  ),
+                  controller: TextEditingController(text: event.location),
+                  maxLines: 1,
+                  autocorrect: true,
+                  onChanged: (String value) {
+                    event.location = value;
+                  },
+                ),
+                DateTimePicker(
+                  labelText: 'Time',
+                  selectedDate: _date,
+                  selectedTime: _time,
+                  selectDate: (DateTime date) {
+                    setState(() {
+                      _date = date;
+                      event.dateTime = DateTime(date.year, date.month, date.day, _time.hour, _time.minute).millisecondsSinceEpoch;
+                    });
+                  },
+                  selectTime: (TimeOfDay time) {
+                    setState(() {
+                      _time = time;
+                      event.dateTime = DateTime(_date.year, _date.month, _date.day, time.hour, time.minute).millisecondsSinceEpoch;
+                    });
+                  },
+                ),
+              ],
+            )
           ),
+        ),
       )
     );
   }

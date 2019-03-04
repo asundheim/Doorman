@@ -102,12 +102,14 @@ Future<bool> registerCode(String userID, String qrCode) {
       });
 }
 
-/// Gets event IDs that a user [userID] has codes for
-Future<List<String>> getEventsForCodes(String userID) {
+/// Gets events that a user [userID] has codes for
+Future<List<Event>> getEventsForCodes(String userID) {
   return client.get('$baseURL/user/$userID/codes/events')
       .then((Response response) {
         final Map<String, dynamic> map = json.decode(response.body);
-        return List<String>.from(map['ids']);
+        return List<dynamic>.from(map['events']).map((dynamic event) {
+          return Event(eventID: event['eventID'], userID: event['userID'], name: event['name'], description: event['description'], location: event['location'], dateTime: event['dateTime']);
+        }).toList();
       });
 }
 

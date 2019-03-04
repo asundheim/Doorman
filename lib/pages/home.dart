@@ -80,11 +80,11 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.all_inclusive), title: Text('Events')),
+              icon: Icon(Icons.event), title: Text('Events')),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_overscan), title: Text('Scan')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.grid_on), title: Text('Codes')),
+              icon: Icon(Icons.apps), title: Text('Codes')),
         ],
         currentIndex: _selectedIndex,
         fixedColor: Colors.deepPurple,

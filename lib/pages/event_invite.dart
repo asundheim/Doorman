@@ -63,27 +63,30 @@ class _EventInviteState extends State<EventInvite> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                qrCode != null ? Container(
+                qrCode != null ?
+                  Container(
                     child: Center(
-                        child: RepaintBoundary(
-                          key: globalKey,
-                          child: QrImage(
-                              backgroundColor: Colors.white,
-                              data: qrCode.rawData,
-                              version: 7,
-                              size: 256.0,
-                              onError: (dynamic ex) {
-                                print('[QR] ERROR - $ex');
-                                setState(() {});
-                              }
-                          ),
+                      child: RepaintBoundary(
+                        key: globalKey,
+                        child: QrImage(
+                            backgroundColor: Colors.white,
+                            data: qrCode.rawData,
+                            version: 7,
+                            size: 256.0,
+                            onError: (dynamic ex) {
+                              print('[QR] ERROR - $ex');
+                              setState(() {});
+                            }
                         ),
-                    )
-                ) : Container(),
-                qrCode != null ? RaisedButton(
-                  color: Colors.white,
-                  child: const Text('Share'),
-                  onPressed: () => _captureAndSharePng(),
+                      ),
+                  )
+                )
+                : Container(),
+                qrCode != null ?
+                  RaisedButton(
+                    color: Colors.white,
+                    child: const Text('Share'),
+                    onPressed: () => _captureAndSharePng(),
                 ) : Container(),
               ],
             )

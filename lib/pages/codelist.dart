@@ -30,44 +30,31 @@ class _CodeListState extends State<CodeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Material(
-        child: Column(
-          children: <Widget>[
-            codes == null ? const CircularProgressIndicator() : Expanded(
-              child: codes.isEmpty ?
-              ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  ListTile(
-                    title: const Text('No Codes found for this event'),
-                    subtitle: const Text('Tap to add a random code to this event'),
-                    onTap: () => _generateRandomCode(),
-                  )
-                ],
-              ): ListView.builder(
-                  itemCount: codes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                        child: Center(
-                          child: Padding(
-                              padding: const EdgeInsets.all(25.0),
-                              child: QrImage(
-                                data: codes[index].rawData,
-                                version: 7,
-                                onError: (dynamic ex) {
-                                  print('[QR] ERROR - $ex');
-                                  setState(() {});
-                                }
-                              )
-                          ),
-                        )
-                    );
-                  }
+      body: ListView.builder(
+        itemCount: codes?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: QrImage(
+                    data: codes[index].rawData,
+                    version: 7,
+                    onError: (dynamic ex) {
+                      print('[QR] ERROR - $ex');
+                      setState(() {});
+                    }
+                ),
+              ),
+              Text(
+                  'Good for ' + codes[index].bulk.toString() + (codes[index].bulk > 1 ? ' people' : ' /person'),
+                  style: Theme.of(context).textTheme.subtitle
               )
-            ),
-          ]
-        )
-      )
+            ],
+          );
+        }
+      ),
     );
   }
 

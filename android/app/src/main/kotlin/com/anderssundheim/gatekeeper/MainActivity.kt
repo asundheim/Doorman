@@ -6,7 +6,7 @@ import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import java.io.File
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 class MainActivity: FlutterActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
