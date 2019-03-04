@@ -82,9 +82,9 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
               icon: Icon(Icons.event), title: Text('Events')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings_overscan), title: Text('Scan')),
+              icon: Icon(Icons.center_focus_weak), title: Text('Scan')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.apps), title: Text('Codes')),
+              icon: Icon(Icons.nfc), title: Text('Codes')),
         ],
         currentIndex: _selectedIndex,
         fixedColor: Colors.deepPurple,
