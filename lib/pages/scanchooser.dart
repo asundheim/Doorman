@@ -3,7 +3,6 @@ import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import './scanner.dart';
 
-
 class ScanChooser extends StatefulWidget {
   final String userID;
 
@@ -53,10 +52,9 @@ class _ScanState extends State<ScanChooser> {
                     child: ListTile(
                       title: Text(events[index].name),
                       subtitle: Text(events[index].description),
-                      onTap: () => Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) => Scanner(userID: userID, eventID: events[index].eventID))),
+                      onTap: () => Navigator.push(
+                        context, MaterialPageRoute<Scanner>(
+                        builder: (BuildContext context) => Scanner(userID: userID, eventID: events[index].eventID))),
                     ),
                   );
                 }
