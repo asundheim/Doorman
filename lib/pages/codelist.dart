@@ -30,6 +30,9 @@ class _CodeListState extends State<CodeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Codes'),
+      ),
       body: ListView.builder(
         itemCount: codes?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
@@ -48,7 +51,7 @@ class _CodeListState extends State<CodeList> {
                 ),
               ),
               Text(
-                  'Good for ' + codes[index].bulk.toString() + (codes[index].bulk > 1 ? ' people' : ' /person'),
+                  'Good for ' + codes[index].bulk.toString() + (codes[index].bulk > 1 ? ' people' : ' person'),
                   style: Theme.of(context).textTheme.subtitle
               )
             ],
@@ -61,11 +64,5 @@ class _CodeListState extends State<CodeList> {
   void _getCodes() async {
     codes = await api.getCodes(userID, eventID);
     setState(() {});
-  }
-
-  void _generateRandomCode() async {
-    final String code = await api.generateCode(userID, eventID, 1);
-    await api.registerCode(userID, code);
-    _getCodes();
   }
 }
