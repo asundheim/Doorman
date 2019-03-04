@@ -10,10 +10,12 @@ import './scanchooser.dart';
 import './settings.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+  final String userID;
+
+  const Home({Key key, @required this.userID}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(userID: userID);
 }
 
 class _HomeState extends State<Home> {
@@ -21,7 +23,7 @@ class _HomeState extends State<Home> {
   String userID = 'ders';
   List<Widget> _widgetOptions;
 
-  _HomeState() {
+  _HomeState({@required this.userID}) {
     _widgetOptions = <Widget>[
       Events(userID: userID),
       ScanChooser(userID: userID),
