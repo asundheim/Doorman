@@ -71,7 +71,7 @@ class _EventInviteState extends State<EventInvite> {
                         child: QrImage(
                             backgroundColor: Colors.white,
                             data: qrCode.rawData,
-                            version: 7,
+                            version: 8,
                             size: 256.0,
                             onError: (dynamic ex) {
                               print('[QR] ERROR - $ex');
@@ -108,7 +108,7 @@ class _EventInviteState extends State<EventInvite> {
   Future<void> _captureAndSharePng() async {
     try {
       final RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
-      final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      final ui.Image image = await boundary.toImage(pixelRatio: 1.0);
       final ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       final Uint8List pngBytes = byteData.buffer.asUint8List();
 
@@ -117,7 +117,7 @@ class _EventInviteState extends State<EventInvite> {
       await file.writeAsBytes(pngBytes);
 
       const MethodChannel channel = MethodChannel('channel:me.gatekeeper.share/share');
-      channel.invokeMethod('shareFile', 'image.png');
+      channel.invokeMethod<dynamic>('shareFile', 'image.png');
     } catch(e) {
       print(e.toString());
     }

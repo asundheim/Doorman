@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
+import '../widgets/listloading.dart';
 import './scanner.dart';
 
 class ScanChooser extends StatefulWidget {
@@ -30,7 +31,7 @@ class _ScanState extends State<ScanChooser> {
             return noEvents();
           }
         } else {
-          return loading();
+          return ListLoading();
         }
       },
     );
@@ -72,26 +73,11 @@ class _ScanState extends State<ScanChooser> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const <Widget>[
-            Text('No events found. Create a new one in the events tab to the left')
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget loading() {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const <Widget>[
-            CircularProgressIndicator(),
-            Padding(
-              padding: EdgeInsets.all(24.0),
-            ),
-            Text('Loading')
+          children: <Widget>[
+            Text(
+              'No events found. Create a new one in the events tab to the left',
+              style: Theme.of(context).textTheme.subtitle
+            )
           ],
         ),
       ),

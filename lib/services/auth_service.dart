@@ -1,4 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 GoogleSignInAccount currentUser;
 
@@ -21,3 +22,11 @@ Future<void> handleSignOut() async {
   googleSignIn.disconnect();
 }
 
+bool loginExists(SharedPreferences prefs) =>
+    prefs.getKeys().contains('authToken') && prefs.getKeys().contains('userID');
+
+String getUserID(SharedPreferences prefs) =>
+    prefs.getString('userID');
+
+String getAuthToken(SharedPreferences prefs) =>
+    prefs.getString('authToken');

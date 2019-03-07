@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gatekeeper/widgets/progress_dialog.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import '../widgets/datetimepicker.dart';
@@ -114,12 +116,17 @@ class _EventCreateState extends State<EventCreate> {
     return partyID;
   }
 
-  final SnackBar _loadingSnackBar = const SnackBar(backgroundColor: Colors.white70, content: Text('Loading', style: TextStyle(color: Colors.black)));
-
   void _createEvent(BuildContext context) async {
-    _scaffoldKey.currentState.showSnackBar(_loadingSnackBar);
+    final ProgressDialog pr = ProgressDialog(
+        context,
+        loadingIndicator: SpinKitWave(color: Colors.deepPurple, type: SpinKitWaveType.start),
+        progressDialogType: ProgressDialogType.Material,
+        loadingIndicatorWidth: 62.5
+    );
+    pr.setMessage('Creating...');
+    pr.show();
     await api.createEvent(event);
-    _scaffoldKey.currentState.hideCurrentSnackBar();
+    pr.hide();
     Navigator.pop(context);
   }
 }

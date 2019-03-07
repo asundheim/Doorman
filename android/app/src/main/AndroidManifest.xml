@@ -16,6 +16,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="gatekeeper"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="me.gatekeeper.share"
