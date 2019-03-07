@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-// Pages
-import './account.dart';
 import './codes.dart';
 import './events.dart';
 import './scanchooser.dart';
@@ -41,17 +38,11 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.more_vert),
             onSelected: (Text menuItem) {
               switch (menuItem.data.toLowerCase()) {
-                case 'account':
-                  Navigator.push<dynamic>(
-                      context,
-                      MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => Account()));
-                  break;
                 case 'settings':
-                  Navigator.push<dynamic>(
+                  Navigator.push(
                       context,
-                      MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => Settings()));
+                      MaterialPageRoute<Settings>(
+                          builder: (BuildContext context) => Settings(userID: userID)));
                   break;
                 case 'help':
                   _launchHelp();
@@ -59,11 +50,6 @@ class _HomeState extends State<Home> {
             },
             offset: const Offset(0, 8.0),
             itemBuilder: (BuildContext context) => <ListTile>[
-                  const ListTile(
-                    title: Text('Account'),
-                    leading: Icon(Icons.account_box),
-                    contentPadding: EdgeInsets.all(0.0),
-                  ),
                   const ListTile(
                     title: Text('Settings'),
                     leading: Icon(Icons.settings),
@@ -79,17 +65,28 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: _widgetOptions[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.event), title: Text('Events')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.center_focus_weak), title: Text('Scan')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.nfc), title: Text('Codes')),
+      bottomNavigationBar: BubbleBottomBar(
+        opacity: .2,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        elevation: 8,
+        items: <BubbleBottomBarItem>[
+          BubbleBottomBarItem(
+            backgroundColor: Colors.deepPurple[300],
+            icon: const Icon(Icons.event, color: Colors.black),
+            activeIcon: const Icon(Icons.event, color: Colors.deepPurple),
+            title: const Text('Events')),
+          BubbleBottomBarItem(
+            backgroundColor: Colors.deepPurple[300],
+            icon: const Icon(Icons.center_focus_weak, color: Colors.black),
+            activeIcon: const Icon(Icons.center_focus_weak, color: Colors.deepPurple),
+            title: const Text('Scan')),
+          BubbleBottomBarItem(
+            backgroundColor: Colors.deepPurple[300],
+            icon: const Icon(Icons.nfc, color: Colors.black),
+            activeIcon: const Icon(Icons.nfc, color: Colors.deepPurple),
+            title: const Text('Codes')),
         ],
         currentIndex: _selectedIndex,
-        fixedColor: Colors.deepPurple,
         onTap: (int index) => _onItemTapped(index, context),
       ),
     );

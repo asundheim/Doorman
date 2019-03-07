@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './classes/loginresult.dart';
 import './pages/home.dart';
 import './pages/login.dart';
 import './pages/splash.dart';
+import './services/api_service.dart' as api;
 import './services/auth_service.dart' as auth;
 
 void main() => runApp(Main());
 
 class Main extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,12 +20,12 @@ class Main extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => FutureBuilder<SharedPreferences>(
-          future: getStorageInstance(),
-          builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        '/': (BuildContext context) => FutureBuilder<LoginResult>(
+          future: attemptLogin(),
+          builder: (BuildContext context, AsyncSnapshot<LoginResult> snapshot) {
             if (snapshot.hasData) {
-              if (auth.tokenExists(snapshot.data)) {
-                return Home(userID: auth.getUserID(snapshot.data));
+              if (snapshot.data.loginSuccess) {
+                return Home(userID: auth.getUserID(snapshot.data.prefs));
               } else {
                 return Login();
               }
@@ -30,12 +33,18 @@ class Main extends StatelessWidget {
               return SplashScreen();
             }
           },
-        )
+        ),
       },
     );
   }
 
-  Future<SharedPreferences> getStorageInstance() async {
-    return SharedPreferences.getInstance();
+  Future<LoginResult> attemptLogin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (auth.loginExists(prefs)) {
+      final bool loginSuccess = await api.tokenLogin(prefs);
+      return LoginResult(prefs: prefs, loginSuccess: loginSuccess);
+    } else {
+      return LoginResult(prefs: prefs, loginSuccess: false);
+    }
   }
 }

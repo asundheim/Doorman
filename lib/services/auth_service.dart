@@ -22,8 +22,11 @@ Future<void> handleSignOut() async {
   googleSignIn.disconnect();
 }
 
-bool tokenExists(SharedPreferences prefs) =>
-    prefs.getKeys().contains('userID');
+bool loginExists(SharedPreferences prefs) =>
+    prefs.getKeys().contains('authToken') && prefs.getKeys().contains('userID');
 
 String getUserID(SharedPreferences prefs) =>
     prefs.getString('userID');
+
+String getAuthToken(SharedPreferences prefs) =>
+    prefs.getString('authToken');

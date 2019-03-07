@@ -43,7 +43,7 @@ class _CodeListState extends State<CodeList> {
                 padding: const EdgeInsets.all(25.0),
                 child: QrImage(
                     data: codes[index].rawData,
-                    version: 7,
+                    version: 8,
                     onError: (dynamic ex) {
                       print('[QR] ERROR - $ex');
                       setState(() {});

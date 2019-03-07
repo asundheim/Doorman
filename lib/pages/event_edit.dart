@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gatekeeper/widgets/progress_dialog.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import '../widgets/datetimepicker.dart';
@@ -17,10 +19,16 @@ class _EventEditState extends State<EventEdit> {
   DateTime _date;
   TimeOfDay _time;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   _EventEditState({@required this.event}) {
     _date = DateTime.fromMillisecondsSinceEpoch(event.dateTime);
     _time = TimeOfDay(hour: _date.hour, minute: _date.minute);
+    nameController.text = event.name;
+    descriptionController.text = event.description;
+    addressController.text = event.location;
   }
 
   @override
@@ -50,8 +58,7 @@ class _EventEditState extends State<EventEdit> {
                       icon: Icon(Icons.event_note),
                       labelText: 'Name'
                   ),
-                  controller: TextEditingController(text: event.name),
-                  autocorrect: true,
+                  controller: nameController,
                   onChanged: (String value) {
                     event.name = value;
                   },
@@ -62,8 +69,7 @@ class _EventEditState extends State<EventEdit> {
                     icon: Icon(Icons.description),
                     labelText: 'Description',
                   ),
-                  controller: TextEditingController(text: event.description),
-                  autocorrect: true,
+                  controller: descriptionController,
                   onChanged: (String value) {
                     event.description = value;
                   },
@@ -74,9 +80,8 @@ class _EventEditState extends State<EventEdit> {
                     icon: Icon(Icons.location_on),
                     labelText: 'Address',
                   ),
-                  controller: TextEditingController(text: event.location),
+                  controller: addressController,
                   maxLines: 1,
-                  autocorrect: true,
                   onChanged: (String value) {
                     event.location = value;
                   },
@@ -106,12 +111,17 @@ class _EventEditState extends State<EventEdit> {
     );
   }
 
-  final SnackBar _loadingSnackBar = const SnackBar(backgroundColor: Colors.white70, content: Text('Loading', style: TextStyle(color: Colors.black)));
-
   void _saveEvent(BuildContext context) async {
-    _scaffoldKey.currentState.showSnackBar(_loadingSnackBar);
+    final ProgressDialog pr = ProgressDialog(
+        context,
+        loadingIndicator: SpinKitWave(color: Colors.deepPurple, type: SpinKitWaveType.start),
+        progressDialogType: ProgressDialogType.Material,
+        loadingIndicatorWidth: 62.5
+    );
+    pr.setMessage('Saving...');
+    pr.show();
     await api.editEvent(event);
-    _scaffoldKey.currentState.hideCurrentSnackBar();
+    pr.hide();
     Navigator.pop(context);
   }
 }

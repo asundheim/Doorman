@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:gatekeeper/classes/event.dart';
-import 'package:gatekeeper/classes/qrcode.dart';
+import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../classes/event.dart';
+import '../classes/qrcode.dart';
+import '../classes/user.dart';
 
 Client client = Client();
 /// URL for emulator to debug the server
@@ -95,11 +98,11 @@ Future<bool> registerCode(String userID, String qrCode) {
   return client.post('$baseURL/user/$userID/codes/register/',
           headers: jsonHeaders(),
           body: json.encode(<String, dynamic>{'code': qrCode})
-      ).then((Response response) {
-        final Map<String, dynamic> map = json.decode(response.body);
-        print(map['message']);
-        return map['success'];
-      });
+    ).then((Response response) {
+      final Map<String, dynamic> map = json.decode(response.body);
+      print(map['message']);
+      return map['success'];
+    });
 }
 
 /// Gets events that a user [userID] has codes for
@@ -113,6 +116,59 @@ Future<List<Event>> getEventsForCodes(String userID) {
       });
 }
 
+Future<bool> createUser(String userID, String password) {
+  final String passwordHash = sha256.convert(utf8.encode(password)).toString();
+  return client.post('$baseURL/user/register',
+          headers: jsonHeaders(),
+          body: loginBody(userID, passwordHash)
+    ).then((Response response) {
+      final Map<String, dynamic> map = json.decode(response.body);
+      return map['success'];
+    });
+}
+
+Future<bool> login(String userID, String password, SharedPreferences prefs) {
+  final String passwordHash = sha256.convert(utf8.encode(password)).toString();
+  return client.post('$baseURL/user/login',
+          headers: jsonHeaders(),
+          body: loginBody(userID, passwordHash)
+    ).then((Response response) {
+      final Map<String, dynamic> map = json.decode(response.body);
+      print(map['message']);
+      if (map['success']) {
+        prefs.setString('userID', map['userID']);
+        prefs.setString('authToken', map['authToken']);
+        return true;
+      } else {
+        return false;
+      }
+    });
+}
+
+Future<bool> tokenLogin(SharedPreferences prefs) {
+  return client.post('$baseURL/user/${prefs.getString('userID')}/tokenLogin',
+          headers: jsonHeaders(),
+          body: json.encode(<String, dynamic>{'authToken': prefs.getString('authToken')})
+    ).then((Response response) {
+      final Map<String, dynamic> map = json.decode(response.body);
+      print(map['message']);
+      if (map['success']) {
+        prefs.setString('authToken', map['authToken']);
+        return true;
+      } else {
+        return false;
+      }
+    });
+}
+
+Future<User> userInfo(String userID) {
+  return client.get('$baseURL/user/$userID')
+      .then((Response response) {
+        final Map<String, dynamic> map = json.decode(response.body);
+        return User(email: map['email']);
+      });
+}
+
 Map<String, String> jsonHeaders() => <String, String>{'Content-Type': 'application/json'};
 
 String eventBody(Event event) {
@@ -121,5 +177,12 @@ String eventBody(Event event) {
     'description': event.description,
     'location': event.location,
     'dateTime': event.dateTime
+  });
+}
+
+String loginBody(String userID, String passwordHash) {
+  return json.encode(<String, dynamic>{
+    'userID': userID,
+    'passwordHash': passwordHash
   });
 }
