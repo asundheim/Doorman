@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(60.0),
-              child: Text('Gatekeeper', style: Theme.of(context).textTheme.display1),
+              child: Text('Doorman', style: Theme.of(context).textTheme.display1),
             ),
             SpinKitWave(color: Colors.deepPurple, type: SpinKitWaveType.start)
           ],

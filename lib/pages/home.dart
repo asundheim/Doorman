@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
-  String userID = 'ders';
+  String userID = '';
   List<Widget> _widgetOptions;
 
   _HomeState({@required this.userID}) {
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gatekeeper'),
+        title: const Text('Doorman'),
         actions: <Widget>[
           PopupMenuButton<Text>(
             icon: const Icon(Icons.more_vert),

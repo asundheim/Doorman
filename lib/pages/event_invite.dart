@@ -116,7 +116,7 @@ class _EventInviteState extends State<EventInvite> {
       final File file = await File('${tempDir.path}/image.png').create();
       await file.writeAsBytes(pngBytes);
 
-      const MethodChannel channel = MethodChannel('channel:me.gatekeeper.share/share');
+      const MethodChannel channel = MethodChannel('channel:me.doorman.share/share');
       channel.invokeMethod<dynamic>('shareFile', 'image.png');
     } catch(e) {
       print(e.toString());

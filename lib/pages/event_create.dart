@@ -1,11 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gatekeeper/widgets/progress_dialog.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import '../widgets/datetimepicker.dart';
+import '../widgets/progress_dialog.dart';
 
 class EventCreate extends StatefulWidget {
   final String userID;

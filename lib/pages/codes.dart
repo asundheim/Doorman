@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gatekeeper/widgets/progress_dialog.dart';
 import 'package:image_picker/image_picker.dart';
 import '../classes/event.dart';
 import '../services/api_service.dart' as api;
 import '../widgets/listloading.dart';
+import '../widgets/progress_dialog.dart';
 import './codelist.dart';
 import './event_info.dart';
 

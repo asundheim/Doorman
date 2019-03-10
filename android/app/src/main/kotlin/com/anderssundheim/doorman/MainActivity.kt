@@ -1,4 +1,4 @@
-package com.anderssundheim.gatekeeper
+package com.anderssundheim.doorman
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ class MainActivity: FlutterActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     GeneratedPluginRegistrant.registerWith(this)
-    MethodChannel(flutterView,"channel:me.gatekeeper.share/share").setMethodCallHandler { methodCall, _ ->
+    MethodChannel(flutterView,"channel:me.doorman.share/share").setMethodCallHandler { methodCall, _ ->
       if (methodCall.method == "shareFile") {
         shareFile(methodCall.arguments as String)
       }
@@ -20,7 +20,7 @@ class MainActivity: FlutterActivity() {
   }
   private fun shareFile(path:String) {
     val imageFile = File(this.applicationContext.cacheDir,path)
-    val contentUri = FileProvider.getUriForFile(this,"me.gatekeeper.share",imageFile)
+    val contentUri = FileProvider.getUriForFile(this,"me.doorman.share",imageFile)
 
     val shareIntent = Intent()
     shareIntent.action = Intent.ACTION_SEND

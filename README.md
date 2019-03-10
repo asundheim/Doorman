@@ -1,3 +1,3 @@
-# gatekeeper
+# doorman
 
 Party Manager

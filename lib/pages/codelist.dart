@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gatekeeper/classes/qrcode.dart';
-import 'package:gatekeeper/services/api_service.dart' as api;
 import 'package:qr_flutter/qr_flutter.dart';
+import '../classes/qrcode.dart';
+import '../services/api_service.dart' as api;
+
 
 class CodeList extends StatefulWidget {
   final String eventID;

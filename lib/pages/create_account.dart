@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gatekeeper/widgets/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators/validators.dart';
 import '../services/api_service.dart' as api;
+import '../widgets/progress_dialog.dart';
 import './login.dart';
 
 class CreateAccount extends StatefulWidget {
