@@ -6,7 +6,7 @@ class QRCode {
   String rawData;
   int bulk;
 
-  /// Creates a new QRCode from a base64 string [qrData]
+  /// Creates a new QRCode from a base64 string [rawData]
   QRCode(this.rawData) {
     final Map<String, dynamic> map = _parseData(rawData);
     userID = map['userID'];

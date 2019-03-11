@@ -73,6 +73,10 @@ class _EventsState extends State<Events> {
                           context,
                           MaterialPageRoute<EventEdit>(builder: (BuildContext context) => EventEdit(event: events[index]))),
                     ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => _deleteEvent(events[index]),
+                    )
                   ],
                 ),
                 onTap: () => Navigator.push(
@@ -107,5 +111,32 @@ class _EventsState extends State<Events> {
         ),
       ),
     );
+  }
+
+  void _deleteEvent(Event event) async {
+    showDialog<AlertDialog>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              content: const Text('Are you sure you want to delete this event?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                  child: const Text('Delete'),
+                  onPressed: () => _delete(event),
+                )
+              ],
+            )
+    );
+  }
+
+  void _delete(Event event) async {
+    await api.deleteEvent(event.userID, event.eventID);
+    Navigator.of(context).pop();
+    setState(() {return;});
   }
 }
