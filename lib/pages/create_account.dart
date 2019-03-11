@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators/validators.dart';
-import '../services/api_service.dart' as api;
-import '../widgets/progress_dialog.dart';
-import './login.dart';
+import './tandc.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -185,34 +181,23 @@ class _CreateAccountState extends State<CreateAccount> {
 
   void _createAccount() async {
     if (_formKey.currentState.validate()) {
-      final ProgressDialog pr = ProgressDialog(
-          context,
-          loadingIndicator: SpinKitWave(color: Colors.deepPurple, type: SpinKitWaveType.start),
-          progressDialogType: ProgressDialogType.Material,
-          loadingIndicatorWidth: 62.5
+      Navigator.push(
+          context, MaterialPageRoute<TermsAndConditions>(
+          builder: (BuildContext context) => TermsAndConditions(email: _emailController.text, password: _passwordController.text))
       );
-      pr.setMessage('Creating Account');
-      pr.show();
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (await api.createUser(_emailController.text, _passwordController.text)) {
-        pr.hide();
-        Navigator.push(
-            context, MaterialPageRoute<Login>(
-            builder: (BuildContext context) => Login())
-        );
-      } else {
-        pr.hide();
-        showDialog<AlertDialog>(
-            context: context,
-            builder: (BuildContext context) =>
-                AlertDialog(content: const Text('Account already exists'))
-        );
-      }
     } else {
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) =>
-              AlertDialog(content: const Text('Please fix errors before submitting'))
+            AlertDialog(
+              actions: <Widget>[
+                RaisedButton(
+                  child: const Text('Ok'),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+              content: const Text('Please fix errors before submitting')
+            )
       );
     }
   }

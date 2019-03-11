@@ -7,7 +7,7 @@ description: Party Manager
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -20,6 +20,7 @@ dependencies:
   qr_flutter: ^1.1.6
   bubble_bottom_bar: ^1.0.0
   flutter_spinkit: ^3.1.0
+  flutter_markdown: ^0.2.0
   crypto: ^2.0.6
   validators: ^1.0.0+1
   path_provider: ^0.5.0+1
