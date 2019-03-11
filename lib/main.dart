@@ -15,7 +15,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Gatekeeper',
+      title: 'Doorman',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
