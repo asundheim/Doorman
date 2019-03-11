@@ -54,6 +54,10 @@ class _CodeListState extends State<CodeList> {
               Text(
                   'Good for ' + codes[index].bulk.toString() + (codes[index].bulk > 1 ? ' people' : ' person'),
                   style: Theme.of(context).textTheme.subtitle
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => _deleteCode(codes[index]),
               )
             ],
           );
@@ -63,6 +67,33 @@ class _CodeListState extends State<CodeList> {
   }
 
   void _getCodes() async {
+    codes = await api.getCodes(userID, eventID);
+    setState(() {});
+  }
+
+  void _deleteCode(QRCode code) async {
+    showDialog<AlertDialog>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              content: const Text('Are you sure you want to delete this code?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                  child: const Text('Delete'),
+                  onPressed: () => _delete(code),
+                )
+              ],
+            )
+    );
+  }
+
+  void _delete(QRCode code) async {
+    await api.deleteCode(userID, code);
     codes = await api.getCodes(userID, eventID);
     setState(() {});
   }

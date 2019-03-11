@@ -169,6 +169,22 @@ Future<User> userInfo(String userID) {
       });
 }
 
+Future<void> deleteEvent(String userID, String eventID) {
+  return client.post('$baseURL/user/$userID/event/$eventID/delete')
+      .then((Response response) {
+        print(response.body);
+      });
+}
+
+Future<void> deleteCode(String userID, QRCode code) {
+  return client.post('$baseURL/user/$userID/codes/delete',
+          headers: jsonHeaders(),
+          body: json.encode(<String, dynamic>{'code': code.rawData})
+    ).then((Response response) {
+      return;
+    });
+}
+
 Map<String, String> jsonHeaders() => <String, String>{'Content-Type': 'application/json'};
 
 String eventBody(Event event) {
