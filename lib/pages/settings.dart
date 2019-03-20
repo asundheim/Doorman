@@ -6,6 +6,7 @@ import '../services/api_service.dart' as api;
 import '../widgets/listloading.dart';
 import '../widgets/progress_dialog.dart';
 import './login.dart';
+import './privacypolicy.dart';
 
 class Settings extends StatefulWidget {
   final String userID;
@@ -47,6 +48,10 @@ class _SettingsState extends State<Settings> {
               title: Text('Logged in with ${user.email}'),
             ),
             ListTile(
+              title: const Text('Privacy Policy'),
+              onTap: () => _privacyPolicy(),
+            ),
+            ListTile(
               title: const Text('Sign Out'),
               onTap: () => _signOut()
             )
@@ -72,6 +77,13 @@ class _SettingsState extends State<Settings> {
       context,
       MaterialPageRoute<Login>(builder: (BuildContext context) => Login()),
       ModalRoute.withName('/'),
+    );
+  }
+
+  void _privacyPolicy() {
+    Navigator.push(
+        context, MaterialPageRoute<PrivacyPolicy>(
+        builder: (BuildContext context) => PrivacyPolicy())
     );
   }
 }
